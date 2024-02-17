@@ -4,6 +4,7 @@ import io.ktor.server.application.*
 import io.ktor.server.cio.*
 import io.ktor.server.engine.*
 import org.jetbrains.exposed.sql.Database
+import tihonin.sergey.databasemodels.project.configureProjectRouting
 import tihonin.sergey.features.login.configureLoginRouting
 import tihonin.sergey.features.register.configureRegisterRouting
 import tihonin.sergey.plugins.*
@@ -21,6 +22,7 @@ fun main() {
 }
 
 fun Application.module() {
+    configureProjectRouting()
     configureLoginRouting()
     configureRegisterRouting()
     configureSerialization()
