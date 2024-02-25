@@ -1,7 +1,8 @@
-package tihonin.sergey.databasemodels.project
+package tihonin.sergey.features.project
 
 import kotlinx.serialization.Serializable
-import kotlinx.serialization.json.Json
+import tihonin.sergey.databasemodels.projecttree.Edge
+import tihonin.sergey.databasemodels.projecttree.Node
 
 @Serializable
 data class CreateProjectReceiveRemote(

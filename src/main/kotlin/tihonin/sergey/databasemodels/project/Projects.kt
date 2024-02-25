@@ -24,7 +24,7 @@ object Projects: Table() {
         }
     }
 
-    fun fetchOwnProject(projectid: UUID): ProjectDTO?{
+    fun fetchProject(projectid: UUID): ProjectDTO?{
         return try {
             transaction {
                val project = Projects.select { Projects.projectid.eq(projectid) }.single()
@@ -39,13 +39,24 @@ object Projects: Table() {
         }
     }
 
-    fun deleteProject(projectid: UUID): Int? {
-        return try{
+    fun fetchOwnProject(owner: UUID): ProjectDTO?{
+        return try {
             transaction {
-                Projects.deleteWhere { Projects.projectid.eq(projectid) }
+                val project = Projects.select { Projects.owner.eq(owner) }.single()
+                ProjectDTO(
+                    projectid = project[projectid],
+                    projectname = project[projectname],
+                    owner = project[Projects.owner]
+                )
             }
         } catch (e: Exception) {
             null
         }
+    }
+
+    fun deleteProject(projectid: UUID): Boolean {
+        return transaction {
+                Projects.deleteWhere { Projects.projectid.eq(projectid) } > 0
+            }
     }
 }

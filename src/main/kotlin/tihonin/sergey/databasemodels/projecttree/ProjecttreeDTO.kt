@@ -1,6 +1,5 @@
-package tihonin.sergey.databasemodels.project
+package tihonin.sergey.databasemodels.projecttree
 
-import kotlinx.serialization.json.Json
 import java.util.*
 
 class ProjecttreeDTO(
