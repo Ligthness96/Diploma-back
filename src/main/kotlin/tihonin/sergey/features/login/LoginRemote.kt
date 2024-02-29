@@ -15,9 +15,19 @@ data class LogoutReceiveRemote(
 )
 
 @Serializable
-data class UserResponseRemote(
+data class LoginResponseRemote(
     val userid: String,
     val name: String,
     val login: String,
     val token: String
+)
+
+@Serializable
+data class UserResponseRemote(
+    val userid: String,
+    val name: String
+)
+@Serializable
+data class ListUsersResponseRemote(
+    val users: List<UserResponseRemote>
 )

@@ -14,8 +14,13 @@ data class AddTaskRequest(
 )
 
 @Serializable
-data class DeleteTaskRequest(
+data class FetchTaskRequest(
     val taskid: String
+)
+
+@Serializable
+data class FetchAllTasksRequest(
+    val projectid: String
 )
 
 @Serializable

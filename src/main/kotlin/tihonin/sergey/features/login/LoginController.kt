@@ -32,7 +32,7 @@ class LoginController(private val call: ApplicationCall) {
                     )
                 )
 
-                call.respond(UserResponseRemote(
+                call.respond(LoginResponseRemote(
                     userDTO.userid.toString(),
                     userDTO.name,
                     userDTO.login,

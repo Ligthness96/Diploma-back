@@ -15,6 +15,17 @@ fun Application.configureProjectRouting() {
             val projectController = ProjectController(call)
             projectController.deleteProject()
         }
-
+        get("/project/fetch/id") {
+            val projectController = ProjectController(call)
+            projectController.fetchProjectByID()
+        }
+        get("/project/fetch/owner") {
+            val projectController = ProjectController(call)
+            projectController.fetchProjectByOwner()
+        }
+        get("/project/fetch/all") {
+            val projectController = ProjectController(call)
+            projectController.fetchAllProjects()
+        }
     }
 }

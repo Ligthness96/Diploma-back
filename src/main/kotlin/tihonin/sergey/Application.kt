@@ -6,7 +6,10 @@ import io.ktor.server.engine.*
 import org.jetbrains.exposed.sql.Database
 import tihonin.sergey.features.project.configureProjectRouting
 import tihonin.sergey.features.login.configureLoginRouting
+import tihonin.sergey.features.participant.configureParticipantsRouting
+import tihonin.sergey.features.projecttree.configureProjecttreeRouting
 import tihonin.sergey.features.register.configureRegisterRouting
+import tihonin.sergey.features.task.configureTaskRouting
 import tihonin.sergey.plugins.*
 
 fun main() {
@@ -22,6 +25,9 @@ fun main() {
 }
 
 fun Application.module() {
+    configureParticipantsRouting()
+    configureProjecttreeRouting()
+    configureTaskRouting()
     configureProjectRouting()
     configureLoginRouting()
     configureRegisterRouting()

@@ -4,6 +4,7 @@ import org.jetbrains.exposed.sql.Table
 import org.jetbrains.exposed.sql.insert
 import org.jetbrains.exposed.sql.select
 import org.jetbrains.exposed.sql.transactions.transaction
+import tihonin.sergey.features.login.UserResponseRemote
 import java.util.*
 
 object Users: Table() {
@@ -24,6 +25,7 @@ object Users: Table() {
     }
 
 
+
     fun fetchUser(login: String): UserDTO? {
         return try {
             transaction {
@@ -38,6 +40,15 @@ object Users: Table() {
         } catch (e: Exception) {
             null
         }
+    }
+    fun fetchUserByID(userid: UUID): UserResponseRemote {
+        return transaction {
+                val user = Users.select { Users.userid eq userid }.single()
+                UserResponseRemote(
+                    userid = user[Users.userid].toString(),
+                    name = user[name]
+                )
+            }
     }
 }
 
