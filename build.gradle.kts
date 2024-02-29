@@ -26,6 +26,28 @@ repositories {
     mavenCentral()
 }
 
+ktor {
+    docker {
+        jreVersion.set(JavaVersion.VERSION_21)
+        localImageName.set("diploma-back")
+        imageTag.set("0.0.1-preview")
+
+        portMappings.set(
+            listOf(
+                io.ktor.plugin.features.DockerPortMapping(
+                    outsideDocker = 80,
+                    insideDocker = 8080,
+                    io.ktor.plugin.features.DockerPortMappingProtocol.TCP
+                )
+            )
+        )
+    }
+
+    fatJar {
+        archiveFileName.set("fat.jar")
+    }
+}
+
 dependencies {
     implementation("at.favre.lib:bcrypt:0.10.2")
     implementation("io.ktor:ktor-server-core-jvm")
