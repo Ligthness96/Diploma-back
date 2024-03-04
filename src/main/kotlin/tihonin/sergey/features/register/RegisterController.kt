@@ -1,6 +1,8 @@
 package tihonin.sergey.features.register
 
 import at.favre.lib.crypto.bcrypt.BCrypt
+import com.auth0.jwt.JWT
+import com.auth0.jwt.algorithms.Algorithm
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.request.*
@@ -10,6 +12,8 @@ import kotlinx.serialization.json.put
 import org.jetbrains.exposed.exceptions.ExposedSQLException
 import tihonin.sergey.databasemodels.user.UserDTO
 import tihonin.sergey.databasemodels.user.Users
+import tihonin.sergey.features.login.LoginResponseRemote
+import java.util.*
 
 class RegisterController(private val call: ApplicationCall) {
 
@@ -34,10 +38,20 @@ class RegisterController(private val call: ApplicationCall) {
             } catch (e: Exception) {
                 call.respond(HttpStatusCode.BadRequest, "Can't create user ${e.localizedMessage}")
             }
-            call.respond(HttpStatusCode.Created, buildJsonObject {
-                put("success", true)
-                put("message", "User has ben created. Login in account and start your experience")
-            }.toString())
+            val user = Users.fetchUser(receive.login)
+            if (user != null) {
+                val token = JWT.create()
+                    .withClaim("userid", user?.userid.toString())
+                    .withIssuedAt(Date(System.currentTimeMillis()))
+                    .withExpiresAt(Date(System.currentTimeMillis() + 2592000000))
+                    .sign(Algorithm.HMAC256("secret"))
+                call.respond(LoginResponseRemote(
+                    userid = user.userid.toString(),
+                    name = user.name,
+                    login = user.login,
+                    token = token
+                ))
+            }
         }
     }
 }

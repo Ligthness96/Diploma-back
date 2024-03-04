@@ -14,64 +14,39 @@ import java.util.*
 
 class TaskController(private val call: ApplicationCall) {
     suspend fun createTask() {
-        val token = call.request.headers["TOKEN"]
-        if (TokenCheck.isTokenValid(token.orEmpty())) {
-            val receive = call.receive<AddTaskRequest>()
-            Tasks.insert(receive.mapTaskDTO())
-        } else {
-            call.respond(HttpStatusCode.Unauthorized, "Вы не авторизованы")
-        }
+        val receive = call.receive<AddTaskRequest>()
+        Tasks.insert(receive.mapTaskDTO())
     }
 
     suspend fun deleteTask() {
-        val token = call.request.headers["TOKEN"]
-        if (TokenCheck.isTokenValid(token.orEmpty())) {
-            val receive = call.receive<FetchTaskRequest>()
-            Tasks.deleteTaskByID(UUID.fromString(receive.taskid))
-        } else {
-            call.respond(HttpStatusCode.Unauthorized, "Вы не авторизованы")
-        }
+        val receive = call.receive<FetchTaskRequest>()
+        Tasks.deleteTaskByID(UUID.fromString(receive.taskid))
     }
 
     suspend fun editTask() {
-        val token = call.request.headers["TOKEN"]
-        if (TokenCheck.isTokenValid(token.orEmpty())) {
-            val receive = call.receive<FetchTaskResponse>()
-            Tasks.editTask(TaskDTO(
-                taskid = UUID.fromString(receive.taskid),
-                projectid = UUID.fromString(receive.projectid),
-                taskname = receive.taskname,
-                executor = UUID.fromString(receive.executor),
-                datestart = LocalDate.parse(receive.datestart),
-                dateend = LocalDate.parse(receive.dateend)
-            ), UUID.fromString(receive.taskid))
-        } else {
-            call.respond(HttpStatusCode.Unauthorized, "Вы не авторизованы")
-        }
+        val receive = call.receive<FetchTaskResponse>()
+        Tasks.editTask(TaskDTO(
+            taskid = UUID.fromString(receive.taskid),
+            projectid = UUID.fromString(receive.projectid),
+            taskname = receive.taskname,
+            executor = UUID.fromString(receive.executor),
+            datestart = LocalDate.parse(receive.datestart),
+            dateend = LocalDate.parse(receive.dateend)
+        ), UUID.fromString(receive.taskid))
     }
 
     suspend fun fetchTask() {
-        val token = call.request.headers["TOKEN"]
-        if (TokenCheck.isTokenValid(token.orEmpty())) {
-            val receive = call.receive<FetchTaskRequest>()
-            val task = Tasks.fetchTaskByID(UUID.fromString(receive.taskid))
-            if (task != null) {
-                call.respond(task.mapToFetchEventResponse())
-            } else {
-                call.respond(HttpStatusCode.NotFound, "Задача не найдена")
-            }
+        val receive = call.receive<FetchTaskRequest>()
+        val task = Tasks.fetchTaskByID(UUID.fromString(receive.taskid))
+        if (task != null) {
+            call.respond(task.mapToFetchEventResponse())
         } else {
-            call.respond(HttpStatusCode.Unauthorized, "Вы не авторизованы")
+            call.respond(HttpStatusCode.NotFound, "Задача не найдена")
         }
     }
     suspend fun fetchAlTasks() {
-        val token = call.request.headers["TOKEN"]
-        if (TokenCheck.isTokenValid(token.orEmpty())) {
-            val receive = call.receive<FetchAllTasksRequest>()
-            val tasks = Tasks.fetchAllTask(UUID.fromString(receive.projectid))
-            call.respond(tasks)
-        } else {
-            call.respond(HttpStatusCode.Unauthorized, "Вы не авторизованы")
-        }
+        val receive = call.receive<FetchAllTasksRequest>()
+        val tasks = Tasks.fetchAllTask(UUID.fromString(receive.projectid))
+        call.respond(tasks)
     }
 }

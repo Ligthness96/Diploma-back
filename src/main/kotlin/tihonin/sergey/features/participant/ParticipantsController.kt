@@ -16,18 +16,13 @@ import java.util.*
 
 class ParticipantsController(private val call: ApplicationCall) {
     suspend fun fetchParticipants(){
-        val token = call.request.headers["TOKEN"]
-        if (TokenCheck.isTokenValid(token.orEmpty())) {
-            val receive = call.receive<FetchByIDProjectReceiveRemote>()
-            val participants = Participants.fetchAllByProjectID(UUID.fromString(receive.projectid))
-            val users = mutableListOf<UserResponseRemote>()
-            for(participant in participants){
-                val user = Users.fetchUserByID(UUID.fromString(participant.userid))
-                users.add(user)
-            }
-            call.respond(users)
-        } else {
-            call.respond(HttpStatusCode.Unauthorized, "Вы не авторизованы")
+        val receive = call.receive<FetchByIDProjectReceiveRemote>()
+        val participants = Participants.fetchAllByProjectID(UUID.fromString(receive.projectid))
+        val users = mutableListOf<UserResponseRemote>()
+        for(participant in participants){
+            val user = Users.fetchUserByID(UUID.fromString(participant.userid))
+            users.add(user)
         }
+        call.respond(users)
     }
 }

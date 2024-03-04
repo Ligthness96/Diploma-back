@@ -25,13 +25,14 @@ fun main() {
 }
 
 fun Application.module() {
+    configureSecurity()
     configureParticipantsRouting()
     configureProjecttreeRouting()
     configureTaskRouting()
     configureProjectRouting()
     configureLoginRouting()
     configureRegisterRouting()
+    configureCORS()
     configureSerialization()
-    configureSecurity()
     configureRouting()
 }
