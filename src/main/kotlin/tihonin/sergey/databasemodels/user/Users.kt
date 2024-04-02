@@ -41,14 +41,18 @@ object Users: Table() {
             null
         }
     }
-    fun fetchUserByID(userid: UUID): UserResponseRemote {
-        return transaction {
+    fun fetchUserByID(userid: UUID): UserResponseRemote? {
+        return try {
+            transaction {
                 val user = Users.select { Users.userid eq userid }.single()
                 UserResponseRemote(
                     userid = user[Users.userid].toString(),
                     name = user[name]
                 )
             }
+        } catch (e: Exception){
+            null
+        }
     }
 }
 

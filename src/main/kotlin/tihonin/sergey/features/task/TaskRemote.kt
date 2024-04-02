@@ -19,8 +19,9 @@ data class FetchTaskRequest(
 )
 
 @Serializable
-data class FetchAllTasksRequest(
-    val projectid: String
+data class EditIsCompleteRequest(
+    val taskid: String,
+    val iscomplete: Boolean
 )
 
 @Serializable
@@ -30,7 +31,8 @@ data class FetchTaskResponse(
     val taskname: String,
     val executor: String,
     val datestart: String,
-    val dateend: String
+    val dateend: String,
+    val iscomplete: Boolean
 )
 
 @Serializable

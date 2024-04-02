@@ -4,11 +4,7 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class CreateInviteReceiveRemote(
-    val projectid: String
-)
-
-@Serializable
-data class CreateInviteResponseRemote(
+    val projectid: String,
     val code: String
 )
 

@@ -16,6 +16,7 @@ class TaskController(private val call: ApplicationCall) {
     suspend fun createTask() {
         val receive = call.receive<AddTaskRequest>()
         Tasks.insert(receive.mapTaskDTO())
+        call.respond(HttpStatusCode.Created, message = "Задача успешно создана")
     }
 
     suspend fun deleteTask() {
@@ -25,14 +26,31 @@ class TaskController(private val call: ApplicationCall) {
 
     suspend fun editTask() {
         val receive = call.receive<FetchTaskResponse>()
-        Tasks.editTask(TaskDTO(
+        val task = Tasks.editTask(TaskDTO(
             taskid = UUID.fromString(receive.taskid),
             projectid = UUID.fromString(receive.projectid),
             taskname = receive.taskname,
             executor = UUID.fromString(receive.executor),
             datestart = LocalDate.parse(receive.datestart),
-            dateend = LocalDate.parse(receive.dateend)
-        ), UUID.fromString(receive.taskid))
+            dateend = LocalDate.parse(receive.dateend),
+            iscomplete = receive.iscomplete
+        ), UUID.fromString(receive.taskid))?.mapToFetchEventResponse()
+        if (task!=null){
+            call.respond(task)
+        } else {
+            call.respond(HttpStatusCode.NotFound, "Задача не найдена")
+        }
+
+    }
+
+    suspend fun editIsComplete() {
+        val receive = call.receive<EditIsCompleteRequest>()
+        val task = Tasks.editIsComplete(receive.iscomplete, UUID.fromString(receive.taskid))?.mapToFetchEventResponse()
+        if (task!=null){
+            call.respond(task)
+        } else {
+            call.respond(HttpStatusCode.NotFound, "Задача не найдена")
+        }
     }
 
     suspend fun fetchTask() {
@@ -45,8 +63,8 @@ class TaskController(private val call: ApplicationCall) {
         }
     }
     suspend fun fetchAlTasks() {
-        val receive = call.receive<FetchAllTasksRequest>()
-        val tasks = Tasks.fetchAllTask(UUID.fromString(receive.projectid))
+        val projectid = call.request.queryParameters["projectid"]
+        val tasks = Tasks.fetchAllTask(UUID.fromString(projectid))
         call.respond(tasks)
     }
 }

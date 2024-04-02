@@ -27,8 +27,8 @@ fun main() {
 
 fun Application.module() {
     configureSecurity()
-    configureParticipantsRouting()
     configureProjecttreeRouting()
+    configureParticipantsRouting()
     configureTaskRouting()
     configureProjectRouting()
     configureLoginRouting()

@@ -3,7 +3,6 @@ package tihonin.sergey.features.project
 import io.ktor.server.application.*
 import io.ktor.server.auth.*
 import io.ktor.server.routing.*
-import tihonin.sergey.features.project.ProjectController
 
 fun Application.configureProjectRouting() {
 

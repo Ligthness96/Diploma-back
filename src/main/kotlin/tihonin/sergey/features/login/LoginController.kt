@@ -43,6 +43,11 @@ class LoginController(private val call: ApplicationCall) {
         val token = call.request.headers["Authorization"]?.replace("Bearer ".toRegex(), "")
         val jwt = JWT.decode(token)
         val user = fetchUserByID(UUID.fromString(jwt.getClaim("userid").asString()))
-        call.respond(user)
+        if (user!=null){
+            call.respond(user)
+        } else {
+            call.respond(HttpStatusCode.NotFound)
+        }
+
     }
 }

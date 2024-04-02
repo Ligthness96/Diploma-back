@@ -51,9 +51,9 @@ class ProjectController(private val call: ApplicationCall) {
     }
 
     suspend fun fetchProjectByID() {
-        val receive = call.receive<FetchByIDProjectReceiveRemote>()
-        val project = Projects.fetchProject(UUID.fromString(receive.projectid))
-        val tree = Projecttrees.fetchProjecttree(UUID.fromString(receive.projectid))
+        val projectid = call.request.queryParameters["projectid"]
+        val project = Projects.fetchProject(UUID.fromString(projectid))
+        val tree = Projecttrees.fetchProjecttree(UUID.fromString(projectid))
         if (project != null && tree != null){
             call.respond(ProjectResponseRemote(
                 project.projectid.toString(),

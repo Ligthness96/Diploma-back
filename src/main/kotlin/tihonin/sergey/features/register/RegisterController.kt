@@ -41,7 +41,7 @@ class RegisterController(private val call: ApplicationCall) {
             val user = Users.fetchUser(receive.login)
             if (user != null) {
                 val token = JWT.create()
-                    .withClaim("userid", user?.userid.toString())
+                    .withClaim("userid", user.userid.toString())
                     .withIssuedAt(Date(System.currentTimeMillis()))
                     .withExpiresAt(Date(System.currentTimeMillis() + 2592000000))
                     .sign(Algorithm.HMAC256("secret"))

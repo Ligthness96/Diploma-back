@@ -14,6 +14,7 @@ object Tasks: Table() {
     private val executor = Tasks.uuid("executor")
     private val datestart = Tasks.date("datestart")
     private val dateend = Tasks.date("dateend")
+    private val iscomplete = Tasks.bool("iscomplete")
 
     fun insert(taskDTO: TaskDTO) {
         transaction {
@@ -24,6 +25,7 @@ object Tasks: Table() {
                 it[executor] = taskDTO.executor
                 it[datestart] = taskDTO.datestart
                 it[dateend] = taskDTO.dateend
+                it[iscomplete] = taskDTO.iscomplete
             }
         }
     }
@@ -31,14 +33,15 @@ object Tasks: Table() {
     fun fetchTaskByID(taskid: UUID): TaskDTO? {
         return try {
             transaction {
-                val task = Tasks.select { Tasks.projectid.eq(taskid)}.single()
+                val task = Tasks.select { Tasks.taskid.eq(taskid)}.single()
                 TaskDTO(
                     taskid = task[Tasks.taskid],
                     projectid = task[projectid],
                     taskname = task[taskname],
                     executor = task[executor],
                     datestart = task[datestart],
-                    dateend = task[dateend]
+                    dateend = task[dateend],
+                    iscomplete = task[iscomplete]
                 )
             }
         } catch (e: Exception) {
@@ -46,21 +49,56 @@ object Tasks: Table() {
         }
     }
 
-    fun editTask(taskDTO: TaskDTO, taskid: UUID): Boolean {
-        return transaction {
+    fun editTask(taskDTO: TaskDTO, taskid: UUID): TaskDTO? {
+        transaction {
             Tasks.update({ Tasks.taskid.eq(taskid)}){
                 it[taskname] = taskDTO.taskname
                 it[executor] = taskDTO.executor
                 it[datestart] = taskDTO.datestart
                 it[dateend] = taskDTO.dateend
+                it[iscomplete] = taskDTO.iscomplete
             }
-        } > 0
+        }
+//        return transaction {
+//            val task = Tasks.select { Tasks.taskid.eq(taskid) }.single()
+//            TaskDTO(
+//                taskid = task[Tasks.taskid],
+//                projectid = task[projectid],
+//                taskname = task[taskname],
+//                executor = task[executor],
+//                datestart = task[datestart],
+//                dateend = task[dateend],
+//                iscomplete = task[Tasks.iscomplete]
+//            )
+//        }
+        return fetchTaskByID(taskid)
+    }
+
+    fun editIsComplete(iscomplete: Boolean, taskid: UUID): TaskDTO? {
+        transaction {
+            Tasks.update({ Tasks.taskid.eq(taskid)}){
+                it[Tasks.iscomplete] = iscomplete
+            }
+        }
+//        return transaction {
+//            val task = Tasks.select { Tasks.taskid.eq(taskid)}.single()
+//            TaskDTO(
+//                taskid = task[Tasks.taskid],
+//                projectid = task[projectid],
+//                taskname = task[taskname],
+//                executor = task[executor],
+//                datestart = task[datestart],
+//                dateend = task[dateend],
+//                iscomplete = task[Tasks.iscomplete]
+//            )
+//        }
+        return fetchTaskByID(taskid)
     }
 
     fun fetchAllTask(projectid: UUID): List<FetchTaskResponse> {
         return try {
             transaction {
-                Tasks.select { Tasks.projectid.eq(taskid) }.toList()
+                Tasks.select { Tasks.projectid.eq(projectid) }.toList()
                     .map {
                         FetchTaskResponse(
                             taskid = it[taskid].toString(),
@@ -68,7 +106,8 @@ object Tasks: Table() {
                             taskname = it[taskname],
                             executor = it[executor].toString(),
                             datestart = it[datestart].toString(),
-                            dateend = it[dateend].toString()
+                            dateend = it[dateend].toString(),
+                            iscomplete = it[iscomplete]
                         )
                     }
             }
@@ -84,7 +123,7 @@ object Tasks: Table() {
     }
     fun deleteAllTasks(projectid: UUID): Boolean {
         return transaction {
-            Tasks.deleteWhere { Tasks.projectid.eq(taskid) }
+            Tasks.deleteWhere { Tasks.projectid.eq(projectid) }
         } > 0
     }
 

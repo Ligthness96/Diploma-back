@@ -14,16 +14,13 @@ import java.util.UUID
 class InviteController(private val call: ApplicationCall) {
 
     suspend fun createInvite(){
-        val projectid = call.receive<CreateInviteReceiveRemote>().projectid
-        val code = UUID.randomUUID().toString()
+        val receive = call.receive<CreateInviteReceiveRemote>()
         Invites.insert(InviteDTO(
-            UUID.fromString(projectid),
-            code,
+            UUID.fromString(receive.projectid),
+            receive.code,
             LocalDate.now()
         ))
-        call.respond(CreateInviteResponseRemote(
-            code
-        ))
+        call.respond(HttpStatusCode.Created, message = "Код приглашения успешно создан")
     }
 
     suspend fun joinInvite() {
@@ -44,7 +41,7 @@ class InviteController(private val call: ApplicationCall) {
                 call.respond(HttpStatusCode.OK, "Вы присоединились к проекту")
             }
         } else {
-            call.respond(HttpStatusCode.NoContent, "Неверный код")
+            call.respond(HttpStatusCode.NotFound, "Неверный код")
         }
     }
 

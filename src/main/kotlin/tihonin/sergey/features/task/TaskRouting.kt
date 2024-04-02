@@ -13,9 +13,17 @@ fun Application.configureTaskRouting() {
                 val taskController = TaskController(call)
                 taskController.createTask()
             }
-            post("/task/edit") {
+            post("/task/delete") {
                 val taskController = TaskController(call)
                 taskController.deleteTask()
+            }
+            post("/task/edit") {
+                val taskController = TaskController(call)
+                taskController.editTask()
+            }
+            post("/task/edit/iscomplete") {
+                val taskController = TaskController(call)
+                taskController.editIsComplete()
             }
             get("/task/fetch") {
                 val taskController = TaskController(call)
