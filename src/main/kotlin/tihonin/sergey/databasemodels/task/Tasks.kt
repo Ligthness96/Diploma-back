@@ -16,6 +16,7 @@ object Tasks: Table() {
     private val dateend = Tasks.date("dateend")
     private val iscomplete = Tasks.bool("iscomplete")
 
+
     fun insert(taskDTO: TaskDTO) {
         transaction {
             Tasks.insert {
@@ -59,18 +60,6 @@ object Tasks: Table() {
                 it[iscomplete] = taskDTO.iscomplete
             }
         }
-//        return transaction {
-//            val task = Tasks.select { Tasks.taskid.eq(taskid) }.single()
-//            TaskDTO(
-//                taskid = task[Tasks.taskid],
-//                projectid = task[projectid],
-//                taskname = task[taskname],
-//                executor = task[executor],
-//                datestart = task[datestart],
-//                dateend = task[dateend],
-//                iscomplete = task[Tasks.iscomplete]
-//            )
-//        }
         return fetchTaskByID(taskid)
     }
 
@@ -80,18 +69,6 @@ object Tasks: Table() {
                 it[Tasks.iscomplete] = iscomplete
             }
         }
-//        return transaction {
-//            val task = Tasks.select { Tasks.taskid.eq(taskid)}.single()
-//            TaskDTO(
-//                taskid = task[Tasks.taskid],
-//                projectid = task[projectid],
-//                taskname = task[taskname],
-//                executor = task[executor],
-//                datestart = task[datestart],
-//                dateend = task[dateend],
-//                iscomplete = task[Tasks.iscomplete]
-//            )
-//        }
         return fetchTaskByID(taskid)
     }
 

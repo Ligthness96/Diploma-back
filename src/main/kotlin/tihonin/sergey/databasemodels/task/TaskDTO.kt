@@ -12,7 +12,7 @@ class TaskDTO(
     val executor: UUID,
     val datestart: LocalDate,
     val dateend: LocalDate,
-    val iscomplete: Boolean
+    val iscomplete: Boolean,
 )
 
 
@@ -24,7 +24,7 @@ fun AddTaskRequest.mapTaskDTO(): TaskDTO =
         executor = UUID.fromString(executor),
         datestart = LocalDate.parse(datestart),
         dateend = LocalDate.parse(dateend),
-        iscomplete = false
+        iscomplete = false,
     )
 
 fun TaskDTO.mapToFetchEventResponse(): FetchTaskResponse =

@@ -24,6 +24,7 @@ data class EditIsCompleteRequest(
     val iscomplete: Boolean
 )
 
+
 @Serializable
 data class FetchTaskResponse(
     val taskid: String,
@@ -32,7 +33,7 @@ data class FetchTaskResponse(
     val executor: String,
     val datestart: String,
     val dateend: String,
-    val iscomplete: Boolean
+    val iscomplete: Boolean,
 )
 
 @Serializable
