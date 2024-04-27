@@ -23,6 +23,7 @@ class TaskController(private val call: ApplicationCall) {
         val receive = call.receive<FetchTaskRequest>()
         Edges.deleteEdgesWithTask(UUID.fromString(receive.taskid))
         Tasks.deleteTaskByID(UUID.fromString(receive.taskid))
+        call.respond(HttpStatusCode.OK, message = "Задача успешно удалена")
     }
 
     suspend fun editTask() {
