@@ -13,6 +13,8 @@ WORKDIR /app
 
 COPY . /app
 
+RUN chmod +x gradlew
+
 RUN ./gradlew build
 
 CMD ["bash", "-c", "source $HOME/.sdkman/bin/sdkman-init.sh && kotlin", "src/main/kotlin/tihonin/sergey/Application.kt"]
