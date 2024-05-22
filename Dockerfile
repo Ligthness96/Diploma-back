@@ -12,5 +12,5 @@ RUN apt-get update && apt-get install -y \
 WORKDIR /app
 
 COPY . /app
-
+RUN ./gradlew --refresh-dependencies
 CMD ["bash", "-c", "source $HOME/.sdkman/bin/sdkman-init.sh && kotlin", "src/main/kotlin/tihonin/sergey/Application.kt"]
