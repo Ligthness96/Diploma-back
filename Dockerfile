@@ -1,6 +1,6 @@
 FROM openjdk:11-jdk
 
-EXPOSE 8080
+EXPOSE 80
 
 RUN apt-get update && apt-get install -y zip
 
