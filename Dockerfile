@@ -11,4 +11,4 @@ WORKDIR /app
 
 COPY . /app
 
-CMD ["kotlin", "src/main/kotlin/tihonin/sergey/Application.kt"]
+CMD ["bash", "-c", "source $HOME/.sdkman/bin/sdkman-init.sh && kotlin src/main/kotlin/tihonin/sergey/Application.kt"]
