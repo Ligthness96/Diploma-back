@@ -11,4 +11,4 @@ WORKDIR /app
 
 COPY . /app
 
-CMD ["kotlin", "Application.kt"]
+CMD ["kotlin", "src/main/kotlin/tihonin/sergey/Application.kt"]
