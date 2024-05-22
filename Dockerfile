@@ -1,6 +1,6 @@
 FROM openjdk:11-jdk
 
-EXPOSE 80
+EXPOSE 8080
 
 RUN apt-get update && apt-get install -y zip
 
@@ -13,4 +13,4 @@ WORKDIR /app
 
 COPY . /app
 
-CMD ["bash", "-c", "source $HOME/.sdkman/bin/sdkman-init.sh && kotlin Application.kt"]
+CMD ["bash", "-c", "source $HOME/.sdkman/bin/sdkman-init.sh && kotlin /app/src/main/kotlin/tihonin/sergey/Application.kt"]
