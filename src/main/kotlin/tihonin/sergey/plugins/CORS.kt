@@ -6,7 +6,7 @@ import io.ktor.server.plugins.cors.routing.*
 
 fun Application.configureCORS() {
     install(CORS){
-        allowHost("https://disanias-diploma-front-85da.twc1.net")
+        allowHost("disanias-diploma-front-85da.twc1.net")
         allowHost("localhost:3000")
         allowHeader(HttpHeaders.ContentType)
         allowHeader(HttpHeaders.Authorization)
