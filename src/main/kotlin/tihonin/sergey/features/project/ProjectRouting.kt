@@ -24,7 +24,6 @@ fun Application.configureProjectRouting() {
                 val projectController = ProjectController(call)
                 projectController.fetchProjectByOwner()
             }
-
             get("/project/fetchall") {
                 val projectController = ProjectController(call)
                 projectController.fetchAllProjects()

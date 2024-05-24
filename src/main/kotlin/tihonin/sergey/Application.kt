@@ -15,10 +15,10 @@ import tihonin.sergey.plugins.*
 
 fun main() {
     Database.connect(
-        url = "jdbc:postgresql://localhost:5432/diploma",
+        url = System.getenv("DB_URL"),
         driver = "org.postgresql.Driver",
-        user = "postgres",
-        password = "root"
+        user = System.getenv("DB_USER"),
+        password = System.getenv("DB_PASSWORD")
     )
 
     embeddedServer(CIO, port = 8080, host = "0.0.0.0", module = Application::module)
