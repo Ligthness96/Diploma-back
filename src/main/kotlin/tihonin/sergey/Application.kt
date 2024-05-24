@@ -18,7 +18,7 @@ fun main() {
         url = "jdbc:postgresql://147.45.247.19:5432/default_db",
         driver = "org.postgresql.Driver",
         user = "gen_user",
-        password = "i0iTB%40_%7C(cYrF%3B"
+        password = "i0iTB@_|(cYrF;"
     )
 
     embeddedServer(CIO, port = 8080, host = "0.0.0.0", module = Application::module)
