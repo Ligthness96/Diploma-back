@@ -15,7 +15,7 @@ import tihonin.sergey.plugins.*
 
 fun main() {
     Database.connect(
-        url = "jdbc:postgresql://192.168.0.4:5432/default_db",
+        url = "jdbc:postgresql://147.45.247.19:5432/default_db",
         driver = "org.postgresql.Driver",
         user = "gen_user",
         password = "i0iTB%40_%7C(cYrF%3B"
